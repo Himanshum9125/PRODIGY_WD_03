@@ -1,0 +1,243 @@
+/* General reset and base styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2); /* Vibrant gradient background */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #fff;
+    overflow: hidden; /* Prevent scrollbar from animation */
+}
+
+/* Container for the game */
+.container {
+    background: #1e1e2f; /* Dark, deep background for contrast */
+    border-radius: 25px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.05); /* Deep shadow with subtle inner glow */
+    padding: 40px 50px;
+    max-width: 420px; /* Slightly wider */
+    width: 100%;
+    text-align: center;
+    position: relative; /* For potential future absolute positioning of elements */
+    animation: fadeIn 1s ease-out; /* Fade-in animation for the container */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header styling */
+header h1 {
+    font-size: 3.5rem; /* Larger font size */
+    margin-bottom: 0.1em;
+    letter-spacing: 4px; /* More spacing */
+    text-transform: uppercase;
+    text-shadow: 0 0 15px #a18cd1, 0 0 25px #a18cd1; /* Enhanced glow */
+    background: linear-gradient(90deg, #e0c3fc, #8ec5fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: 1.2rem; /* Slightly larger */
+    font-weight: 300;
+    margin-bottom: 35px; /* More space */
+    color: #c1bedeaa;
+    letter-spacing: 1.5px; /* More spacing */
+}
+
+/* Game board grid */
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 18px; /* Larger gap */
+    justify-content: center;
+    margin-bottom: 35px;
+    position: relative; /* For placing winning line */
+}
+
+/* Individual cell styling */
+.cell {
+    background: linear-gradient(145deg, #2a2a40, #1f1f2e); /* Subtle dark gradient */
+    border-radius: 20px;
+    box-shadow:
+        inset 4px 4px 8px #121224, /* Inner shadow for depth */
+        inset -4px -4px 8px #3a3a5e,
+        0 4px 10px rgba(0, 0, 0, 0.3); /* Outer shadow */
+    font-size: 3.8rem; /* Larger symbol */
+    color: #9f86c6; /* Default color, overridden by X/O */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease; /* Smoother transition */
+    position: relative;
+    overflow: hidden; /* For future animations inside cell */
+}
+
+.cell:hover:not(.disabled) {
+    background: linear-gradient(145deg, #3a3a5e, #2a2a40); /* Lighter gradient on hover */
+    box-shadow:
+        inset 6px 6px 12px #1a1a2a,
+        inset -6px -6px 12px #4a4a7e,
+        0 6px 15px rgba(0, 0, 0, 0.4); /* Enhanced outer shadow */
+    color: #d6c9f8;
+    transform: scale(1.03) translateY(-2px); /* Subtle lift and scale */
+}
+
+.cell.disabled {
+    cursor: default;
+    color: #5a4f7a; /* Muted color for disabled cells */
+    opacity: 0.8;
+}
+
+.cell.x {
+    color: #ff6b6b; /* Reddish hue for X */
+    text-shadow: 0 0 12px #ff6b6b, 0 0 20px #ff6b6b80; /* Stronger glow */
+    animation: popIn 0.3s ease-out; /* Pop-in animation */
+}
+
+.cell.o {
+    color: #6bff6b; /* Greenish hue for O */
+    text-shadow: 0 0 12px #6bff6b, 0 0 20px #6bff6b80; /* Stronger glow */
+    animation: popIn 0.3s ease-out; /* Pop-in animation */
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+/* Status display */
+#status-container {
+    background: #2e2e4e; /* Darker background for status */
+    padding: 15px 25px; /* More padding */
+    border-radius: 18px; /* Larger radius */
+    box-shadow: 0 0 20px #6b5b95aa; /* Stronger glow */
+    margin-bottom: 30px;
+    min-height: 50px; /* Taller */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem; /* Larger font */
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    color: #e0d7f5;
+    text-shadow: 0 0 8px rgba(255,255,255,0.3); /* Subtle text shadow */
+}
+
+/* Restart button */
+#restart-btn {
+    background: linear-gradient(90deg, #8c7ae6, #6b5b95); /* Gradient button */
+    border: none;
+    border-radius: 30px;
+    padding: 15px 55px; /* Larger padding */
+    font-size: 1.3rem; /* Larger font */
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px #8c7ae6; /* Enhanced shadow with glow */
+    transition: all 0.3s ease; /* Smoother transition */
+    letter-spacing: 2.5px; /* More spacing */
+    text-transform: uppercase;
+}
+
+#restart-btn:hover {
+    background: linear-gradient(90deg, #9f86c6, #7a68af); /* Lighter gradient on hover */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px #9f86c6; /* Even stronger shadow */
+    transform: translateY(-3px); /* Subtle lift */
+}
+
+/* Winning Line Animation */
+.winning-line {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.3); /* Semi-transparent white line */
+    border-radius: 5px;
+    z-index: 10; /* Above cells */
+    animation: drawLine 0.5s forwards ease-out; /* Animation */
+    box-shadow: 0 0 15px #fff, 0 0 25px #fff; /* Glow effect */
+}
+
+/* Positioning for winning lines */
+.winning-line.row-0 { top: 59px; left: 18px; width: 314px; height: 10px; }
+.winning-line.row-1 { top: 177px; left: 18px; width: 314px; height: 10px; }
+.winning-line.row-2 { top: 295px; left: 18px; width: 314px; height: 10px; }
+
+.winning-line.col-0 { top: 18px; left: 59px; width: 10px; height: 314px; }
+.winning-line.col-1 { top: 18px; left: 177px; width: 10px; height: 314px; }
+.winning-line.col-2 { top: 18px; left: 295px; width: 10px; height: 314px; }
+
+.winning-line.diag-0 { /* Top-left to bottom-right */
+    top: 59px; left: 18px;
+    width: 314px; height: 10px;
+    transform-origin: left center;
+    transform: rotate(45deg);
+}
+.winning-line.diag-1 { /* Top-right to bottom-left */
+    top: 59px; left: 18px;
+    width: 314px; height: 10px;
+    transform-origin: left center;
+    transform: rotate(-45deg);
+}
+
+@keyframes drawLine {
+    from { transform: scaleX(0) rotate(var(--line-angle, 0deg)); }
+    to { transform: scaleX(1) rotate(var(--line-angle, 0deg)); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 450px) {
+    .container {
+        padding: 30px 20px;
+        max-width: 320px;
+    }
+    #game-board {
+        grid-template-columns: repeat(3, 80px);
+        grid-template-rows: repeat(3, 80px);
+        gap: 10px;
+    }
+    .cell {
+        font-size: 2.8rem;
+        border-radius: 15px;
+    }
+    header h1 {
+        font-size: 2.5rem;
+    }
+    .subtitle {
+        font-size: 1rem;
+    }
+    #status-container {
+        font-size: 1.1rem;
+        padding: 10px 15px;
+    }
+    #restart-btn {
+        font-size: 1.1rem;
+        padding: 12px 40px;
+    }
+
+    /* Adjust winning line positions for smaller screens */
+    .winning-line.row-0 { top: 52px; left: 15px; width: 260px; height: 8px; }
+    .winning-line.row-1 { top: 147px; left: 15px; width: 260px; height: 8px; }
+    .winning-line.row-2 { top: 242px; left: 15px; width: 260px; height: 8px; }
+
+    .winning-line.col-0 { top: 15px; left: 52px; width: 8px; height: 260px; }
+    .winning-line.col-1 { top: 15px; left: 147px; width: 8px; height: 260px; }
+    .winning-line.col-2 { top: 15px; left: 242px; width: 8px; height: 260px; }
+
+    .winning-line.diag-0, .winning-line.diag-1 {
+        top: 52px; left: 15px;
+        width: 260px; height: 8px;
+    }
+}
